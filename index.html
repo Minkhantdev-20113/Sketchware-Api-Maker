@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheetForge Pro | Advanced Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-box"><i class="fas fa-bolt"></i></div>
+                <span>SheetForge</span>
+            </div>
+            <nav class="side-nav">
+                <a href="#" class="nav-item active"><i class="fas fa-layer-group"></i> Dashboard</a>
+                <a href="sketchware-academy.html" class="nav-item"><i class="fas fa-book-open"></i> Documentation</a>
+                <a href="app script generator.html" class="nav-item"><i class="fas fa-terminal"></i> Base64 String</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i> <span>Dark Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-info">
+                    <h1>App Script <span>Generator</span></h1>
+                    <p>Build your private Google Sheets API instantly.</p>
+                </div>
+                <div class="version-badge">
+                    <i class="fas fa-code-branch"></i>
+                    <select id="scriptVersion">
+                        <option value="v1">v1.0 (Standard)</option>
+                        <option value="v2">v2.0 (High Perf)</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <div class="config-section">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fas fa-link"></i> Project Link</h3>
+                        <div class="input-field">
+                            <input type="text" id="sheetId" placeholder="Google Sheet ID or URL">
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="sheetName" value="Sheet1">
+                        </div>
+                    </div>
+
+                    <div class="glass-card mt-20">
+                        <h3 class="card-title"><i class="fas fa-database"></i> Schema Definition</h3>
+                        <div class="tag-input-group">
+                            <div class="tag-box">
+                                <input type="text" id="colInput" placeholder="Add column header...">
+                                <button onclick="addColumn()"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div id="tagContainer" class="tag-container"></div>
+                        </div>
+
+                        <div class="methods-selection">
+                            <p class="label-text">Select Functions:</p>
+                            <div class="custom-checks-grid">
+                                <label class="method-chip">
+                                    <input type="checkbox" id="cInsert" checked>
+                                    <div class="chip-content"><i class="fas fa-plus"></i> Create</div>
+                                </label>
+                                <label class="method-chip">
+                                    <input type="checkbox" id="cRead" checked>
+                                    <div class="chip-content"><i class="fas fa-eye"></i> Read</div>
+                                </label>
+                                <label class="method-chip">
+                                    <input type="checkbox" id="cUpdate" checked>
+                                    <div class="chip-content"><i class="fas fa-pen"></i> Update</div>
+                                </label>
+                                <label class="method-chip">
+                                    <input type="checkbox" id="cDelete" checked>
+                                    <div class="chip-content"><i class="fas fa-trash"></i> Delete</div>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn-main" onclick="generateScript()">
+                            <i class="fas fa-rocket"></i> Launch Generator
+                        </button>
+                    </div>
+                </div>
+
+                <div class="output-section">
+                    <div class="editor-container">
+                        <div class="editor-header">
+                            <div class="editor-info">
+                                <i class="fab fa-google"></i> Code.gs
+                            </div>
+                            <div class="custom-radios">
+                                <label class="radio-tab">
+                                    <input type="radio" name="format" value="gs" checked>
+                                    <span>.gs</span>
+                                </label>
+                                <label class="radio-tab">
+                                    <input type="radio" name="format" value="txt">
+                                    <span>.txt</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="code-area">
+                            <textarea id="codeOutput" spellcheck="false" readonly placeholder="// Configuration required..."></textarea>
+                            <div class="floating-actions">
+                                <button onclick="copyCode()"><i class="fas fa-copy"></i></button>
+                                <button onclick="downloadFile()"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="editor-footer">
+                            <button class="f-btn" onclick="validate()"><i class="fas fa-check-double"></i> Syntax Check</button>
+                            <button class="f-btn" onclick="simulate()"><i class="fas fa-play"></i> Run Debug</button>
+                        </div>
+                    </div>
+                    <div id="logMessage" class="log-box"><i class="fas fa-info-circle"></i> Waiting for generation...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="toast">Copied to Clipboard!</div>
+    <script src="script.js"></script>
+</body>
+</html>
