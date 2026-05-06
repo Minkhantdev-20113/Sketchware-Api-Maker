@@ -93,6 +93,7 @@ input:focus { border-color: var(--primary); }
 
 #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 25px; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; }
 #toast.show { opacity: 1; bottom: 40px; }
+
 /* ဖုန်းမျက်နှာပြင်များအတွက် (Screen width 768px ထက် ငယ်လျှင်) */
 @media (max-width: 768px) {
     .app-container {
