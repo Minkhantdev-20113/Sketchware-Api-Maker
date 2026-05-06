@@ -27,24 +27,22 @@ body { background: var(--bg); color: var(--text); overflow: hidden; height: 100v
 
 .app-container { display: flex; height: 100vh; }
 
-/* Sidebar */
 .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 2rem 1.5rem; display: flex; flex-direction: column; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 1.4rem; font-weight: 800; margin-bottom: 2.5rem; }
-.logo-box { width: 38px; height: 38px; background: var(--primary); color: white; border-radius: 10px; display: grid; place-items: center; box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3); }
+.logo-box { width: 38px; height: 38px; background: var(--primary); color: white; border-radius: 10px; display: grid; place-items: center; }
 
 .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; color: var(--text-muted); text-decoration: none; border-radius: 10px; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
 .nav-item.active { background: var(--card-bg); color: var(--primary); border: 1px solid var(--border); }
 
 .theme-btn { width: 100%; margin-top: auto; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; }
 
-/* Main Content */
 .main-content { flex: 1; padding: 2rem 3rem; overflow-y: auto; }
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
 .header h1 span { color: var(--primary); }
-.version-badge { background: var(--card-bg); border: 1px solid var(--border); padding: 5px 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--text-muted); }
-.version-badge select { background: transparent; border: none; color: var(--text); outline: none; cursor: pointer; font-weight: 700; }
 
-/* Bento Grid */
+/* Version Badge Styling */
+.version-badge { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text); font-weight: 700; }
+
 .dashboard-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 2rem; }
 .glass-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; }
 .card-title { font-size: 0.95rem; margin-bottom: 1.2rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -57,23 +55,18 @@ input:focus { border-color: var(--primary); }
 .tag-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .tag { background: var(--primary); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
 
-/* Custom Checkboxes (Chips) */
 .custom-checks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
 .method-chip { position: relative; cursor: pointer; }
 .method-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
-.chip-content { padding: 12px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; text-align: center; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-.method-chip input:checked + .chip-content { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3); }
+.chip-content { padding: 12px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; text-align: center; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.method-chip input:checked + .chip-content { background: var(--primary); color: white; border-color: var(--primary); }
 
-.btn-main { width: 100%; margin-top: 20px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); }
+.btn-main { width: 100%; margin-top: 20px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; }
 
-/* Adaptive Editor */
 .editor-container { background: var(--editor-bg); border: 1px solid var(--border); border-radius: 20px; height: 480px; display: flex; flex-direction: column; overflow: hidden; }
 .editor-header { padding: 12px 20px; background: rgba(0,0,0,0.15); display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); }
-.editor-info { font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--text-muted); }
 
-/* Custom Radio Tabs */
 .custom-radios { display: flex; background: rgba(0,0,0,0.2); padding: 3px; border-radius: 8px; }
-.radio-tab { cursor: pointer; }
 .radio-tab input { position: absolute; opacity: 0; }
 .radio-tab span { padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; color: var(--text-muted); }
 .radio-tab input:checked + span { background: var(--bg); color: var(--primary); }
@@ -83,45 +76,11 @@ input:focus { border-color: var(--primary); }
 
 .floating-actions { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 8px; }
 .floating-actions button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; }
-.floating-actions button:hover { background: var(--primary); color: white; }
 
-.editor-footer { padding: 10px; display: flex; gap: 10px; background: rgba(0,0,0,0.05); }
+.editor-footer { padding: 10px; display: flex; gap: 10px; }
 .f-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid var(--border); color: var(--text-muted); border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
-.f-btn:hover { border-color: var(--primary); color: var(--text); }
 
 .log-box { margin-top: 15px; padding: 12px; border-radius: 12px; background: var(--card-bg); font-size: 0.8rem; display: flex; align-items: center; gap: 10px; color: var(--text-muted); border: 1px solid var(--border); }
 
 #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 25px; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; }
 #toast.show { opacity: 1; bottom: 40px; }
-
-/* ဖုန်းမျက်နှာပြင်များအတွက် (Screen width 768px ထက် ငယ်လျှင်) */
-@media (max-width: 768px) {
-    .app-container {
-        flex-direction: column; /* အပေါ်အောက် ပြောင်းလိုက်ပါ */
-        overflow-y: auto;
-    }
-
-    .sidebar {
-        width: 100%; /* Sidebar ကို အပြည့်ပေးလိုက်ပါ */
-        height: auto;
-        padding: 1rem;
-    }
-
-    .main-content {
-        padding: 1rem;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr; /* Column ကို ၁ ခုတည်း ထားပါ */
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .editor-container {
-        height: 400px; /* ဖုန်းမှာ Editor ကို အနည်းငယ် သေးလိုက်ပါ */
-    }
-}

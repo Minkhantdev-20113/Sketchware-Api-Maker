@@ -5,9 +5,7 @@ const themeBtn = document.getElementById('themeToggle');
 themeBtn.addEventListener('click', () => {
     const html = document.documentElement;
     const isDark = html.getAttribute('data-theme') === 'dark';
-    const nextTheme = isDark ? 'light' : 'dark';
-    html.setAttribute('data-theme', nextTheme);
-    
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
     themeBtn.innerHTML = isDark 
         ? '<i class="fas fa-sun"></i> <span>Light Mode</span>' 
         : '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
@@ -36,7 +34,7 @@ function removeTag(i) {
     renderTags();
 }
 
-// --- Generator Logic ---
+// --- Generator Logic (FIXED RESULTS) ---
 function generateScript() {
     const sheetIdInput = document.getElementById('sheetId').value;
     const sheetName = document.getElementById('sheetName').value;
@@ -49,14 +47,30 @@ function generateScript() {
     const id = sheetIdInput.includes("/d/") ? sheetIdInput.split("/d/")[1].split("/")[0] : sheetIdInput;
 
     let code = `/**\n * Created with SheetForge Pro\n * Target: ${sheetName}\n */\n\n`;
-    code += `const SS_ID = "${id}";\nconst SHEET = "${sheetName}";\n\n`;
+    code += `const SS_ID = "${id}";\nconst SHEET = "${sheetName}";\nconst KEYS = ${JSON.stringify(columns)};\n\n`;
+    
     code += `function doPost(e) {\n  const p = e.parameter;\n  const ss = SpreadsheetApp.openById(SS_ID).getSheetByName(SHEET);\n  try {\n`;
 
     if (document.getElementById('cInsert').checked) code += `    if (p.action === 'add') return addData(ss, p);\n`;
-    if (document.getElementById('cRead').checked) code += `    if (p.action === 'get') return getData(ss);\n`;
+    if (document.getElementById('cUpdate').checked) code += `    if (p.action === 'update') return updateData(ss, p);\n`;
+    if (document.getElementById('cDelete').checked) code += `    if (p.action === 'delete') return deleteData(ss, p);\n`;
 
     code += `    return res({error: "Action Invalid"});\n  } catch(e) { return res({error: e.toString()}); }\n}\n\n`;
-    code += `function addData(ss, p) {\n  const keys = ${JSON.stringify(columns)};\n  const row = [new Date()];\n  keys.forEach(k => row.push(p[k] || ""));\n  ss.appendRow(row);\n  return res({status: "ok"});\n}\n\n`;
+    
+    code += `function doGet(e) {\n  const ss = SpreadsheetApp.openById(SS_ID).getSheetByName(SHEET);\n`;
+    if (document.getElementById('cRead').checked) code += `  return getData(ss);\n`;
+    else code += `  return res({error: "Read function is disabled"});\n`;
+    code += `}\n\n`;
+
+    // --- CRUD Helper Functions ---
+    code += `function addData(ss, p) {\n  const row = [new Date()];\n  KEYS.forEach(k => row.push(p[k] || ""));\n  ss.appendRow(row);\n  return res({status: "success"});\n}\n\n`;
+    
+    code += `function getData(ss) {\n  const data = ss.getDataRange().getValues();\n  const headers = data[0];\n  const rows = data.slice(1);\n  const result = rows.map(r => {\n    let obj = {};\n    headers.forEach((h, i) => obj[h] = r[i]);\n    return obj;\n  });\n  return res(result);\n}\n\n`;
+
+    code += `function updateData(ss, p) {\n  const data = ss.getDataRange().getValues();\n  for (let i = 1; i < data.length; i++) {\n    if (data[i][0].toString() == p.id) {\n      KEYS.forEach((k, idx) => {\n        if (p[k]) ss.getRange(i + 1, idx + 2).setValue(p[k]);\n      });\n      return res({status: "updated"});\n    }\n  }\n  return res({error: "ID not found"});\n}\n\n`;
+
+    code += `function deleteData(ss, p) {\n  const data = ss.getDataRange().getValues();\n  for (let i = 1; i < data.length; i++) {\n    if (data[i][0].toString() == p.id) {\n      ss.deleteRow(i + 1);\n      return res({status: "deleted"});\n    }\n  }\n  return res({error: "ID not found"});\n}\n\n`;
+
     code += `function res(obj) {\n  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);\n}`;
 
     document.getElementById('codeOutput').value = code;
