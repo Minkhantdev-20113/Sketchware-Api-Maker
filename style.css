@@ -84,3 +84,35 @@ input:focus { border-color: var(--primary); }
 
 #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 10px 25px; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; }
 #toast.show { opacity: 1; bottom: 40px; }
+
+/* ဖုန်းမျက်နှာပြင်များအတွက် (Screen width 768px ထက် ငယ်လျှင်) */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column; /* အပေါ်အောက် ပြောင်းလိုက်ပါ */
+        overflow-y: auto;
+    }
+
+    .sidebar {
+        width: 100%; /* Sidebar ကို အပြည့်ပေးလိုက်ပါ */
+        height: auto;
+        padding: 1rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Column ကို ၁ ခုတည်း ထားပါ */
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .editor-container {
+        height: 400px; /* ဖုန်းမှာ Editor ကို အနည်းငယ် သေးလိုက်ပါ */
+    }
+}
