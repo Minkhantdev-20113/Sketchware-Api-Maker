@@ -1,129 +1,366 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SheetForge Pro | Advanced Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForgeAPI Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="logo-box"><i class="fas fa-bolt"></i></div>
-                <span>SheetForge</span>
-            </div>
-            <nav class="side-nav">
-                <a href="index.html" class="nav-item active"><i class="fas fa-layer-group"></i> Dashboard</a>
-                <a href="app script generator.html" class="nav-item"><i class="fas fa-terminal"></i> Base64 String</a>
-                <a href="sketchware-academy.html" class="nav-item"><i class="fas fa-book-open"></i> Documentation</a>
-            </nav>
-            <div class="sidebar-footer">
-                <button id="themeToggle" class="theme-btn">
-                    <i class="fas fa-moon"></i> <span>Dark Mode</span>
-                </button>
-            </div>
-        </aside>
+<div class="background-glow"></div>
 
-        <main class="main-content">
-            <header class="header">
-                <div class="header-info">
-                    <h1>App Script <span>Generator</span></h1>
-                    <p>Build your private Google Sheets API instantly.</p>
-                </div>
-                <div class="version-badge">
-                    <i class="fas fa-code-branch"></i>
-                    <span id="scriptVersionDisplay">v1.0 (Standard)</span>
-                </div>
-            </header>
+<div class="layout">
 
-            <div class="dashboard-grid">
-                <div class="config-section">
-                    <div class="glass-card">
-                        <h3 class="card-title"><i class="fas fa-link"></i> Project Link</h3>
-                        <div class="input-field">
-                            <input type="text" id="sheetId" placeholder="Google Sheet ID or URL">
-                        </div>
-                        <div class="input-field">
-                            <input type="text" id="sheetName" value="Sheet1">
-                        </div>
-                    </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
 
-                    <div class="glass-card mt-20">
-                        <h3 class="card-title"><i class="fas fa-database"></i> Schema Definition</h3>
-                        <div class="tag-input-group">
-                            <div class="tag-box">
-                                <input type="text" id="colInput" placeholder="Add column header...">
-                                <button onclick="addColumn()"><i class="fas fa-plus"></i></button>
-                            </div>
-                            <div id="tagContainer" class="tag-container"></div>
-                        </div>
+    <div class="logo-area">
+      <div class="logo-icon">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
 
-                        <div class="methods-selection">
-                            <p class="label-text">Select Functions:</p>
-                            <div class="custom-checks-grid">
-                                <label class="method-chip">
-                                    <input type="checkbox" id="cInsert" checked>
-                                    <div class="chip-content"><i class="fas fa-plus"></i> Create</div>
-                                </label>
-                                <label class="method-chip">
-                                    <input type="checkbox" id="cRead" checked>
-                                    <div class="chip-content"><i class="fas fa-eye"></i> Read</div>
-                                </label>
-                                <label class="method-chip">
-                                    <input type="checkbox" id="cUpdate" checked>
-                                    <div class="chip-content"><i class="fas fa-pen"></i> Update</div>
-                                </label>
-                                <label class="method-chip">
-                                    <input type="checkbox" id="cDelete" checked>
-                                    <div class="chip-content"><i class="fas fa-trash"></i> Delete</div>
-                                </label>
-                            </div>
-                        </div>
-                        <button class="btn-main" onclick="generateScript()">
-                            <i class="fas fa-rocket"></i> Launch Generator
-                        </button>
-                    </div>
-                </div>
-
-                <div class="output-section">
-                    <div class="editor-container">
-                        <div class="editor-header">
-                            <div class="editor-info">
-                                <i class="fab fa-google"></i> Code.gs
-                            </div>
-                            <div class="custom-radios">
-                                <label class="radio-tab">
-                                    <input type="radio" name="format" value="gs" checked>
-                                    <span>.gs</span>
-                                </label>
-                                <label class="radio-tab">
-                                    <input type="radio" name="format" value="txt">
-                                    <span>.txt</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="code-area">
-                            <textarea id="codeOutput" spellcheck="false" readonly placeholder="// Configuration required..."></textarea>
-                            <div class="floating-actions">
-                                <button onclick="copyCode()"><i class="fas fa-copy"></i></button>
-                                <button onclick="downloadFile()"><i class="fas fa-download"></i></button>
-                            </div>
-                        </div>
-                        <div class="editor-footer">
-                            <button class="f-btn" onclick="validate()"><i class="fas fa-check-double"></i> Syntax Check</button>
-                            <button class="f-btn" onclick="simulate()"><i class="fas fa-play"></i> Run Debug</button>
-                        </div>
-                    </div>
-                    <div id="logMessage" class="log-box"><i class="fas fa-info-circle"></i> Waiting for generation...</div>
-                </div>
-            </div>
-        </main>
+      <div>
+        <h2>ForgeAPI</h2>
+        <span>Production Studio</span>
+      </div>
     </div>
-    <div id="toast">Copied to Clipboard!</div>
-    <script src="script.js"></script>
+
+    <div class="side-section">
+      <p class="side-title">Workspace</p>
+
+      <!-- Dashboard -->
+      <button
+        class="nav-btn active"
+        onclick="window.location.href='index.html'"
+      >
+        <i class="fa-solid fa-layer-group"></i>
+        Dashboard
+      </button>
+
+      <!-- API Generator -->
+      <button
+        class="nav-btn"
+        onclick="window.location.href='generator.html'"
+      >
+        <i class="fa-solid fa-code"></i>
+        API Generator
+      </button>
+
+      <!-- Docs -->
+      <button
+        class="nav-btn"
+        onclick="window.location.href='Docs.html'"
+      >
+        <i class="fa-solid fa-book-open"></i>
+        Docs
+      </button>
+    </div>
+
+    <div class="side-bottom">
+
+      <div class="theme-box">
+        <div>
+          <strong>Appearance</strong>
+          <span>Switch theme mode</span>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+
+      <div class="status-card">
+        <div class="status-dot"></div>
+
+        <div>
+          <strong>ForgeAPI Studio</strong>
+          <span>Frontend Preview</span>
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div>
+        <h1>Google Sheets API Generator</h1>
+        <p>Generate professional Apps Script CRUD APIs instantly.</p>
+      </div>
+
+      <div class="version">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Generation v1.0</span>
+      </div>
+
+    </header>
+
+    <!-- GRID -->
+    <section class="grid">
+
+      <!-- LEFT -->
+      <div class="left-panel">
+
+        <!-- PROJECT -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon blue">
+              <i class="fa-solid fa-link"></i>
+            </div>
+
+            <div>
+              <h3>Project Configuration</h3>
+              <p>Connect your spreadsheet</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Google Sheet URL / ID</label>
+
+            <input
+              type="text"
+              id="sheetId"
+              placeholder="Paste your Sheet URL or ID"
+            >
+          </div>
+
+          <div class="field">
+            <label>Sheet Name</label>
+
+            <input
+              type="text"
+              id="sheetName"
+              value="Sheet1"
+            >
+          </div>
+
+        </div>
+
+        <!-- SCHEMA -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon purple">
+              <i class="fa-solid fa-database"></i>
+            </div>
+
+            <div>
+              <h3>Database Schema</h3>
+              <p>Create your table columns</p>
+            </div>
+          </div>
+
+          <div class="tag-input-wrapper">
+
+            <input
+              type="text"
+              id="colInput"
+              placeholder="Enter column name..."
+            >
+
+            <button id="addColumnBtn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+
+          </div>
+
+          <div id="tagContainer" class="tags"></div>
+
+        </div>
+
+        <!-- FUNCTIONS -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon green">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+              <h3>API Functions</h3>
+              <p>Select available methods</p>
+            </div>
+          </div>
+
+          <div class="methods">
+
+            <label class="method">
+              <input type="checkbox" id="cInsert" checked>
+
+              <div>
+                <i class="fa-solid fa-plus"></i>
+                Create
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cRead" checked>
+
+              <div>
+                <i class="fa-solid fa-eye"></i>
+                Read
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cUpdate" checked>
+
+              <div>
+                <i class="fa-solid fa-pen"></i>
+                Update
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cDelete" checked>
+
+              <div>
+                <i class="fa-solid fa-trash"></i>
+                Delete
+              </div>
+            </label>
+
+          </div>
+
+          <button class="generate-btn" id="generateBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Generate Production Script
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right-panel">
+
+        <div class="editor-card">
+
+          <!-- editor top -->
+          <div class="editor-top">
+
+            <div class="editor-title">
+              <i class="fa-brands fa-google"></i>
+              <span>Code.gs</span>
+            </div>
+
+            <div class="editor-actions">
+
+              <div class="format-box">
+
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="gs"
+                    checked
+                  >
+
+                  <span>.gs</span>
+                </label>
+
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="txt"
+                  >
+
+                  <span>.txt</span>
+                </label>
+
+              </div>
+
+              <button id="copyBtn" class="action-btn">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+
+              <button id="downloadBtn" class="action-btn">
+                <i class="fa-solid fa-download"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- code -->
+          <div class="editor-wrapper">
+
+<textarea
+  id="codeOutput"
+  readonly
+  spellcheck="false"
+>
+// Waiting for generation...
+
+// Features Included:
+// • Create API
+// • Read API
+// • Update API
+// • Delete API
+// • JSON Response
+// • Google Apps Script Ready
+</textarea>
+
+          </div>
+
+          <!-- bottom -->
+          <div class="editor-bottom">
+
+            <button
+              class="bottom-btn"
+              id="validateBtn"
+            >
+              <i class="fa-solid fa-check"></i>
+              Validate
+            </button>
+
+            <button
+              class="bottom-btn"
+              id="simulateBtn"
+            >
+              <i class="fa-solid fa-play"></i>
+              Simulate
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- LOG -->
+        <div class="log-card" id="logMessage">
+          <i class="fa-solid fa-circle-info"></i>
+
+          <span>
+            Ready to generate your script...
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
 </body>
 </html>

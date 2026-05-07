@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sketchware Documentations · Deploy & Setup Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* Light Theme */
+    body.light {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --chip-bg: #f1f5f9;
+      --code-bg: #f1f5f9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    }
+
+    /* Dark Theme */
+    body.dark {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --border: #334155;
+      --primary: #60a5fa;
+      --primary-hover: #3b82f6;
+      --chip-bg: #334155;
+      --code-bg: #0f172a;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --error: #f87171;
+      --shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logo p {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    .theme-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 60px;
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .theme-btn:hover {
+      background: var(--chip-bg);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-radius: 40px;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    .tab:hover {
+      background: var(--chip-bg);
+      color: var(--primary);
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Panels */
+    .panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      margin-bottom: 1.8rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card h2 i, .card h3 i {
+      color: var(--primary);
+    }
+
+    /* Step styling */
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--chip-bg);
+      border-radius: 1rem;
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content p {
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+    }
+
+    /* Code blocks */
+    .code-block {
+      background: var(--code-bg);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin: 0.8rem 0;
+      position: relative;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.75rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--text);
+    }
+
+    .copy-code-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--primary);
+      border: none;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+
+    /* Sketchware blocks */
+    .block-diagram {
+      background: var(--chip-bg);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.8rem;
+    }
+
+    .block-line {
+      padding: 0.3rem 0;
+      border-left: 3px solid var(--primary);
+      padding-left: 0.8rem;
+      margin: 0.5rem 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .badge.success { background: var(--success); color: white; }
+    .badge.warning { background: var(--warning); color: black; }
+    .badge.error { background: var(--error); color: white; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .info-box {
+      background: var(--chip-bg);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* CRUD Actions Grid - FIXED! */
+    .crud-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .crud-card {
+      background: var(--chip-bg);
+      border-radius: 1rem;
+      padding: 1.2rem;
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+    }
+
+    .crud-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .crud-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .crud-header i {
+      font-size: 1.3rem;
+    }
+
+    .crud-header i.fa-plus-circle { color: var(--success); }
+    .crud-header i.fa-eye { color: var(--primary); }
+    .crud-header i.fa-edit { color: var(--warning); }
+    .crud-header i.fa-trash-alt { color: var(--error); }
+
+    .crud-header h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .crud-params {
+      font-family: monospace;
+      font-size: 0.75rem;
+      background: var(--code-bg);
+      padding: 0.8rem;
+      border-radius: 0.8rem;
+      word-break: break-all;
+    }
+
+    .crud-params code {
+      display: block;
+      margin: 0.2rem 0;
+    }
+
+    .param-name {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .param-value {
+      color: var(--warning);
+    }
+
+    hr {
+      border-color: var(--border);
+      margin: 1rem 0;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    #toast.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .step { flex-direction: column; }
+      .step-number { align-self: flex-start; }
+      .crud-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="light">
+<div class="container">
+  <div class="header">
+    <div class="logo">
+      <h1><i class="fas fa-graduation-cap"></i> Sketchware Documentations</h1>
+      <p>Complete Guide · Deploy Apps Script + Setup in Sketchware</p>
+    </div>
+    <button class="theme-btn" id="themeBtn">
+      <i class="fas fa-moon"></i> <span>Dark Mode</span>
+    </button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="guide"><i class="fas fa-map"></i> Setup Guide</button>
+    <button class="tab" data-tab="upload"><i class="fas fa-cloud-upload-alt"></i> File Upload API</button>
+    <button class="tab" data-tab="crud"><i class="fas fa-database"></i> CRUD API (Sheet)</button>
+    <button class="tab" data-tab="blocks"><i class="fas fa-cubes"></i> Sketchware Blocks</button>
+  </div>
+
+  <!-- ==================== GUIDE PANEL ==================== -->
+  <div id="guidePanel" class="panel active">
+    <div class="card">
+      <h2><i class="fas fa-rocket"></i> Google Apps Script Deployment Guide</h2>
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <strong>📋 Copy the Script</strong>
+          <p>Copy the complete Apps Script code from one of the API tabs below.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <strong>🌐 Go to script.google.com</strong>
+          <p>Open <a href="https://script.google.com" target="_blank" style="color: var(--primary);">script.google.com</a> and sign in with your Google account.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <strong>📁 Create New Project</strong>
+          <p>Click <strong>+ New project</strong>. Delete any default code and paste your script.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <strong>💾 Save the Project</strong>
+          <p>Click the save icon (💾) or press <kbd>Ctrl + S</kbd>. Name your project (e.g., "Sketchware Upload API").</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <strong>🚀 Deploy as Web App</strong>
+          <p>Click <strong>Deploy → New deployment</strong> → Click the settings icon (⚙️) → Select <strong>Web app</strong>.</p>
+          <div class="info-box" style="margin-top: 0.8rem;">
+            <strong>⚙️ Deployment Settings:</strong><br>
+            • Execute as: <strong>Me (your email)</strong><br>
+            • Who has access: <strong>Anyone</strong> (for testing from Sketchware)<br>
+            • Click <strong>Deploy</strong>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <strong>🔐 Authorize the App</strong>
+          <p>Google will ask for permissions. Click <strong>Review permissions</strong> → Choose your account → <strong>Allow</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">7</div>
+        <div class="step-content">
+          <strong>📎 Copy Web App URL</strong>
+          <p>After deployment, copy the URL (looks like: <code>https://script.google.com/macros/s/.../exec</code>).</p>
+          <div class="code-block">
+            <pre id="exampleUrl">https://script.google.com/macros/s/AKfycbxxxxxx/exec</pre>
+            <button class="copy-code-btn" data-copy="exampleUrl"><i class="fas fa-copy"></i> Copy</button>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">8</div>
+        <div class="step-content">
+          <strong>📱 Use in Sketchware</strong>
+          <p>Paste this URL in your Sketchware HTTP Request component.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-sync-alt"></i> Re-deploying After Changes</h2>
+      <p>If you modify your script, you need to create a <strong>new version</strong>:</p>
+      <div class="block-line">1️⃣ Edit your code in Apps Script editor</div>
+      <div class="block-line">2️⃣ Click <strong>Deploy → Manage deployments</strong></div>
+      <div class="block-line">3️⃣ Click ✏️ Edit (pencil icon) next to your deployment</div>
+      <div class="block-line">4️⃣ Select <strong>New version</strong> → Update → Copy new URL</div>
+    </div>
+  </div>
+
+  <!-- ==================== FILE UPLOAD API PANEL ==================== -->
+  <div id="uploadPanel" class="panel">
+    <div class="card">
+      <h2><i class="fas fa-cloud-upload-alt"></i> File Upload API (Drive)</h2>
+      <p>This script uploads files to your Google Drive with file type validation.</p>
+      
+      <h3><i class="fas fa-code"></i> Complete Script</h3>
+      <div class="code-block" id="uploadCodeBlock">
+        <pre id="uploadScript">// ============================================
+// 📁 Google Apps Script - Sketchware File Upload API
+// ============================================
+
+function doPost(e) {
+  const res = {};
+  try {
+    const fileBlob = e.parameter.file;
+    if (!fileBlob) {
+      throw new Error('No file uploaded. Use parameter name: "file"');
+    }
+    
+    // 🔧 REPLACE WITH YOUR FOLDER ID
+    const folder = DriveApp.getFolderById("YOUR_FOLDER_ID_HERE");
+    
+    const file = folder.createFile(fileBlob);
+    const fileId = file.getId();
+    const fileName = file.getName();
+    const mimeType = file.getMimeType();
+    const fileSize = file.getSize();
+    
+    // File type validation (change as needed)
+    if (!mimeType.startsWith('image/')) {
+      throw new Error('❌ Only image files are allowed');
+    }
+    
+    const fileUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    
+    res.success = true;
+    res.message = "File uploaded successfully";
+    res.fileId = fileId;
+    res.fileName = fileName;
+    res.fileUrl = fileUrl;
+    res.mimeType = mimeType;
+    res.fileSize = fileSize;
+    res.folderId = "YOUR_FOLDER_ID_HERE";
+    
+  } catch (error) {
+    res.success = false;
+    res.error = error.toString();
+  }
+  
+  return ContentService
+    .createTextOutput(JSON.stringify(res))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet() {
+  return ContentService.createTextOutput(JSON.stringify({
+    message: "✅ Sketchware upload endpoint active. Use POST with multipart/form-data, field name: 'file'"
+  })).setMimeType(ContentService.MimeType.JSON);
+}</pre>
+        <button class="copy-code-btn" data-copy="uploadScript"><i class="fas fa-copy"></i> Copy Script</button>
+      </div>
+
+      <div class="info-box">
+        <strong><i class="fas fa-wrench"></i> Customization:</strong><br>
+        • Replace <code>YOUR_FOLDER_ID_HERE</code> with your actual Drive folder ID<br>
+        • Change file validation: <code>if (!mimeType.startsWith('image/'))</code> → <code>if (mimeType !== 'application/pdf')</code> for PDF only<br>
+        • Remove validation for "any file"
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CRUD API PANEL (FIXED - NO TEXT OVERFLOW) ==================== -->
+  <div id="crudPanel" class="panel">
+    <div class="card">
+      <h2><i class="fas fa-database"></i> CRUD API (Google Sheets)</h2>
+      <p>Create, Read, Update, Delete data from Google Sheets via Sketchware.</p>
+      
+      <h3><i class="fas fa-code"></i> Complete CRUD Script</h3>
+      <div class="code-block" id="crudCodeBlock">
+        <pre id="crudScript">/**
+ * Generated by ForgeAPI Studio
+ * Target Sheet: Sheet1
+ */
+
+const SS_ID = "YOUR_SPREADSHEET_ID_HERE";
+const SHEET_NAME = "Sheet1 (or) YOUR_SHEET_NAME";
+const KEYS = ["Name","Email","Phone","Status"];
+
+function doPost(e) {
+  const p = e.parameter;
+  const ss = SpreadsheetApp.openById(SS_ID).getSheetByName(SHEET_NAME);
+  try {
+    if (p.action === 'add') return addData(ss, p);
+    if (p.action === 'update') return updateData(ss, p);
+    if (p.action === 'delete') return deleteData(ss, p);
+    return res({error: "Action Invalid"});
+  } catch(e) { return res({error: e.toString()}); }
+}
+
+function doGet(e) {
+  const ss = SpreadsheetApp.openById(SS_ID).getSheetByName(SHEET_NAME);
+  return getData(ss);
+}
+
+function addData(ss, p) {
+  const row = [new Date()];
+  KEYS.forEach(k => row.push(p[k] || ""));
+  ss.appendRow(row);
+  return res({status: "success"});
+}
+
+function getData(ss) {
+  const data = ss.getDataRange().getValues();
+  const headers = data[0];
+  const rows = data.slice(1);
+  const result = rows.map(r => {
+    let obj = {};
+    headers.forEach((h, i) => obj[h] = r[i]);
+    return obj;
+  });
+  return res(result);
+}
+
+function updateData(ss, p) {
+  const data = ss.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0].toString() == p.id) {
+      KEYS.forEach((k, idx) => {
+        if (p[k]) ss.getRange(i + 1, idx + 2).setValue(p[k]);
+      });
+      return res({status: "updated"});
+    }
+  }
+  return res({error: "ID not found"});
+}
+
+function deleteData(ss, p) {
+  const data = ss.getDataRange().getValues();
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0].toString() == p.id) {
+      ss.deleteRow(i + 1);
+      return res({status: "deleted"});
+    }
+  }
+  return res({error: "ID not found"});
+}
+
+function res(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+</pre>
+        <button class="copy-code-btn" data-copy="crudScript"><i class="fas fa-copy"></i> Copy Script</button>
+      </div>
+
+      <h3><i class="fas fa-table"></i> Setup Google Sheet</h3>
+      <div class="info-box">
+        <strong>📊 Column Structure:</strong><br>
+        Create a sheet with these headers in Row 1:<br>
+        <code>id | Name | Email | Phone | Status
+                [Note:id mean Timestamp]</code>
+      </div>
+
+      <!-- CRUD ACTIONS REFERENCE - FIXED! Clean card layout with no overflow -->
+      <h3><i class="fas fa-plug"></i> CRUD Actions Reference</h3>
+      <div class="crud-grid">
+        <!-- CREATE Card -->
+        <div class="crud-card">
+          <div class="crud-header">
+            <i class="fas fa-plus-circle" style="color: var(--success);"></i>
+            <h4>CREATE</h4>
+            <span class="badge success">Add New Record</span>
+          </div>
+          <div class="crud-params">
+            <code><span class="param-name">action</span>=<span class="param-value">"add"</span></code>
+            <code><span class="param-name">name</span>=<span class="param-value">"John Doe"</span></code>
+            <code><span class="param-name">email</span>=<span class="param-value">"john@example.com"</span></code>
+            <code><span class="param-name">phone</span>=<span class="param-value">"123456789"</span></code>
+          </div>
+        </div>
+
+        <!-- READ Card -->
+        <div class="crud-card">
+          <div class="crud-header">
+            <i class="fas fa-eye" style="color: var(--primary);"></i>
+            <h4>READ</h4>
+            <span class="badge success">Get Records</span>
+          </div>
+          <div class="crud-params">
+            <code><span class="param-name">action</span>=<span class="param-value">"read"</span></code>
+            <code style="margin-top: 0.5rem;">└─ <span class="param-name">search</span>=<span class="param-value">"keyword"</span> (optional)</code>
+          </div>
+        </div>
+
+        <!-- UPDATE Card -->
+        <div class="crud-card">
+          <div class="crud-header">
+            <i class="fas fa-edit" style="color: var(--warning);"></i>
+            <h4>UPDATE</h4>
+            <span class="badge warning">Edit Record</span>
+          </div>
+          <div class="crud-params">
+            <code><span class="param-name">action</span>=<span class="param-value">"update"</span></code>
+            <code><span class="param-name">row</span>=<span class="param-value">"2"</span></code>
+            <code><span class="param-name">name</span>=<span class="param-value">"New Name"</span></code>
+          </div>
+        </div>
+
+        <!-- DELETE Card -->
+        <div class="crud-card">
+          <div class="crud-header">
+            <i class="fas fa-trash-alt" style="color: var(--error);"></i>
+            <h4>DELETE</h4>
+            <span class="badge error">Remove Record</span>
+          </div>
+          <div class="crud-params">
+            <code><span class="param-name">action</span>=<span class="param-value">"delete"</span></code>
+            <code><span class="param-name">row</span>=<span class="param-value">"2"</span></code>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top: 1rem;">
+        <strong><i class="fas fa-lightbulb"></i> Usage Example:</strong><br>
+        In Sketchware HTTP Request, add parameters:<br>
+        <code>action → add</code><br>
+        <code>name → [editTextName]</code><br>
+        <code>email → [editTextEmail]</code><br>
+        <code>phone → [editTextPhone]</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SKETCHWARE BLOCKS PANEL ==================== -->
+  <div id="blocksPanel" class="panel">
+    <div class="card">
+      <h2><i class="fas fa-cubes"></i> Sketchware Setup - HTTP Request Blocks</h2>
+      
+      <h3><i class="fas fa-cloud-upload-alt"></i> File Upload Setup</h3>
+      <div class="block-diagram">
+        <div class="block-line"><strong>📦 When Button Click</strong> → [HTTP Request]</div>
+        <div class="block-line">&nbsp;&nbsp;├─ Method: <span class="badge success">POST</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ URL: <span class="badge warning">[Your Apps Script URL]</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Add Parameter: <strong>file</strong> → Type: <strong>File/Multipart</strong> → Value: [FilePicker Selected File]</div>
+        <div class="block-line">&nbsp;&nbsp;└─ On Response → Show Toast / Parse JSON</div>
+      </div>
+
+      <h3><i class="fas fa-database"></i> CRUD API Setup</h3>
+      
+      <div class="block-diagram">
+        <div class="block-line"><strong>📖 Read Records</strong></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Method: <span class="badge success">GET</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Parameters:</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ action = <code>"read"</code></div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;└─ search = <code>[EditText Search]</code> (optional)</div>
+      </div>
+
+    <div class="block-diagram">
+        <div class="block-line"><strong>📦 Create Record</strong></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Method: <span class="badge success">POST</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Parameters:</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ action = <code>"add"</code></div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ name = [EditText Name]</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ email = [EditText Email]</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;└─ phone = [EditText Phone]</div>
+      </div>
+
+      <div class="block-diagram">
+        <div class="block-line"><strong>✏️ Update Record</strong></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Method: <span class="badge success">POST</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Parameters:</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ action = <code>"update"</code></div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ row = <code>[Row Number]</code></div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;└─ name = <code>[New Name]</code> (optional)</div>
+      </div>
+
+      <div class="block-diagram">
+        <div class="block-line"><strong>🗑️ Delete Record</strong></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Method: <span class="badge success">POST</span></div>
+        <div class="block-line">&nbsp;&nbsp;├─ Parameters:</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ action = <code>"delete"</code></div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;└─ row = <code>[Row Number]</code></div>
+      </div>
+
+      <div class="info-box">
+        <strong><i class="fas fa-lightbulb"></i> Pro Tip:</strong><br>
+        Always use <strong>POST</strong> method for data <strong>ADD, UPDATE and DELETE</strong> and <strong>GET</strong> method for data <strong>READ</strong>. Parse the JSON response using Sketchware's "JSON Object" component.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-chart-line"></i> Response Handling in Sketchware</h2>
+      <div class="block-diagram">
+        <div class="block-line"><strong>📦 HTTP Request → On Response</strong></div>
+        <div class="block-line">&nbsp;&nbsp;├─ JSON Object → Set text = response</div>
+        <div class="block-line">&nbsp;&nbsp;├─ Get value: <strong>success</strong> → If true:</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ Show Toast: "Upload successful!"</div>
+        <div class="block-line">&nbsp;&nbsp;&nbsp;&nbsp;├─ Get value: <strong>fileUrl</strong> → Save to variable</div>
+        <div class="block-line">&nbsp;&nbsp;└─ Else: Show Toast: "Error: " + error</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✨ Copied!</div>
+
+<script>
+// ============================================
+// FULL FUNCTIONAL WEBSITE
+// Dark/Light Mode + Copy Buttons + Tabs
+// ============================================
+
+// ---------- DARK MODE ----------
+function initTheme() {
+  const saved = localStorage.getItem('sketchwareTheme');
+  const body = document.body;
+  const themeBtn = document.getElementById('themeBtn');
+  const icon = themeBtn.querySelector('i');
+  const span = themeBtn.querySelector('span');
+  
+  if (saved === 'dark') {
+    body.classList.remove('light');
+    body.classList.add('dark');
+    icon.className = 'fas fa-sun';
+    span.textContent = 'Light Mode';
+  } else {
+    body.classList.remove('dark');
+    body.classList.add('light');
+    icon.className = 'fas fa-moon';
+    span.textContent = 'Dark Mode';
+  }
+}
+
+function toggleTheme() {
+  const body = document.body;
+  const themeBtn = document.getElementById('themeBtn');
+  const icon = themeBtn.querySelector('i');
+  const span = themeBtn.querySelector('span');
+  const isDark = body.classList.contains('dark');
+  
+  if (isDark) {
+    body.classList.remove('dark');
+    body.classList.add('light');
+    icon.className = 'fas fa-moon';
+    span.textContent = 'Dark Mode';
+    localStorage.setItem('sketchwareTheme', 'light');
+  } else {
+    body.classList.remove('light');
+    body.classList.add('dark');
+    icon.className = 'fas fa-sun';
+    span.textContent = 'Light Mode';
+    localStorage.setItem('sketchwareTheme', 'dark');
+  }
+}
+
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+initTheme();
+
+// ---------- TAB SWITCHING ----------
+const tabs = document.querySelectorAll('.tab');
+const panels = {
+  guide: document.getElementById('guidePanel'),
+  upload: document.getElementById('uploadPanel'),
+  crud: document.getElementById('crudPanel'),
+  blocks: document.getElementById('blocksPanel')
+};
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const tabId = tab.getAttribute('data-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    Object.values(panels).forEach(panel => panel.classList.remove('active'));
+    panels[tabId].classList.add('active');
+  });
+});
+
+// ---------- COPY FUNCTION ----------
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+async function copyText(elementId) {
+  const element = document.getElementById(elementId);
+  const text = element.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('✅ Script copied to clipboard!');
+  } catch(err) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('✅ Script copied!');
+  }
+}
+
+// Attach copy buttons
+document.querySelectorAll('.copy-code-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-copy');
+    copyText(targetId);
+  });
+});
+
+// Also handle example URL copy
+const exampleCopyBtn = document.querySelector('[data-copy="exampleUrl"]');
+if (exampleCopyBtn) {
+  exampleCopyBtn.addEventListener('click', () => copyText('exampleUrl'));
+}
+</script>
+</body>
+</html>
