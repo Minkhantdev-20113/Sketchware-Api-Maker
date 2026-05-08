@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForgeAPI Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="background-glow"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-area">
+      <div class="logo-icon">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+
+      <div>
+        <h2>ForgeAPI</h2>
+        <span>Production Studio</span>
+      </div>
+    </div>
+
+    <div class="side-section">
+      <p class="side-title">Workspace</p>
+
+      <!-- Dashboard -->
+      <button
+        class="nav-btn active"
+        onclick="window.location.href='index.html'"
+      >
+        <i class="fa-solid fa-layer-group"></i>
+        Dashboard
+      </button>
+
+      <!-- API Generator -->
+      <button
+        class="nav-btn"
+        onclick="window.location.href='generator.html'"
+      >
+        <i class="fa-solid fa-code"></i>
+        API Generator
+      </button>
+
+      <!-- Docs -->
+      <button
+        class="nav-btn"
+        onclick="window.location.href='Docs.html'"
+      >
+        <i class="fa-solid fa-book-open"></i>
+        Docs
+      </button>
+    </div>
+
+    <div class="side-bottom">
+
+      <div class="theme-box">
+        <div>
+          <strong>Appearance</strong>
+          <span>Switch theme mode</span>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+
+      <div class="status-card">
+        <div class="status-dot"></div>
+
+        <div>
+          <strong>ForgeAPI Studio</strong>
+          <span>Frontend Preview</span>
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <div>
+        <h1>Google Sheets API Generator</h1>
+        <p>Generate professional Apps Script CRUD APIs instantly.</p>
+      </div>
+
+      <div class="version">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Generation v1.0</span>
+      </div>
+
+    </header>
+
+    <!-- GRID -->
+    <section class="grid">
+
+      <!-- LEFT -->
+      <div class="left-panel">
+
+        <!-- PROJECT -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon blue">
+              <i class="fa-solid fa-link"></i>
+            </div>
+
+            <div>
+              <h3>Project Configuration</h3>
+              <p>Connect your spreadsheet</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Google Sheet URL / ID</label>
+
+            <input
+              type="text"
+              id="sheetId"
+              placeholder="Paste your Sheet URL or ID"
+            >
+          </div>
+
+          <div class="field">
+            <label>Sheet Name</label>
+
+            <input
+              type="text"
+              id="sheetName"
+              value="Sheet1"
+            >
+          </div>
+
+        </div>
+
+        <!-- SCHEMA -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon purple">
+              <i class="fa-solid fa-database"></i>
+            </div>
+
+            <div>
+              <h3>Database Schema</h3>
+              <p>Create your table columns</p>
+            </div>
+          </div>
+
+          <div class="tag-input-wrapper">
+
+            <input
+              type="text"
+              id="colInput"
+              placeholder="Enter column name..."
+            >
+
+            <button id="addColumnBtn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+
+          </div>
+
+          <div id="tagContainer" class="tags"></div>
+
+        </div>
+
+        <!-- FUNCTIONS -->
+        <div class="card">
+
+          <div class="card-head">
+            <div class="card-icon green">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+              <h3>API Functions</h3>
+              <p>Select available methods</p>
+            </div>
+          </div>
+
+          <div class="methods">
+
+            <label class="method">
+              <input type="checkbox" id="cInsert" checked>
+
+              <div>
+                <i class="fa-solid fa-plus"></i>
+                Create
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cRead" checked>
+
+              <div>
+                <i class="fa-solid fa-eye"></i>
+                Read
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cUpdate" checked>
+
+              <div>
+                <i class="fa-solid fa-pen"></i>
+                Update
+              </div>
+            </label>
+
+            <label class="method">
+              <input type="checkbox" id="cDelete" checked>
+
+              <div>
+                <i class="fa-solid fa-trash"></i>
+                Delete
+              </div>
+            </label>
+
+          </div>
+
+          <button class="generate-btn" id="generateBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Generate Production Script
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right-panel">
+
+        <div class="editor-card">
+
+          <!-- editor top -->
+          <div class="editor-top">
+
+            <div class="editor-title">
+              <i class="fa-brands fa-google"></i>
+              <span>Code.gs</span>
+            </div>
+
+            <div class="editor-actions">
+
+              <div class="format-box">
+
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="gs"
+                    checked
+                  >
+
+                  <span>.gs</span>
+                </label>
+
+                <label>
+                  <input
+                    type="radio"
+                    name="format"
+                    value="txt"
+                  >
+
+                  <span>.txt</span>
+                </label>
+
+              </div>
+
+              <button id="copyBtn" class="action-btn">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+
+              <button id="downloadBtn" class="action-btn">
+                <i class="fa-solid fa-download"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- code -->
+          <div class="editor-wrapper">
+
+<textarea
+  id="codeOutput"
+  readonly
+  spellcheck="false"
+>
+// Waiting for generation...
+
+// Features Included:
+// • Create API
+// • Read API
+// • Update API
+// • Delete API
+// • JSON Response
+// • Google Apps Script Ready
+</textarea>
+
+          </div>
+
+          <!-- bottom -->
+          <div class="editor-bottom">
+
+            <button
+              class="bottom-btn"
+              id="validateBtn"
+            >
+              <i class="fa-solid fa-check"></i>
+              Validate
+            </button>
+
+            <button
+              class="bottom-btn"
+              id="simulateBtn"
+            >
+              <i class="fa-solid fa-play"></i>
+              Simulate
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- LOG -->
+        <div class="log-card" id="logMessage">
+          <i class="fa-solid fa-circle-info"></i>
+
+          <span>
+            Ready to generate your script...
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
